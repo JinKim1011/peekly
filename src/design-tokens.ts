@@ -125,17 +125,8 @@ export const designTokens = {
   },
   shadows: {
     baseline: "0 0 0 0 #0000",
-    raised: [
-      "0 2px 4px 0 #0000001f",
-      "0 2px 12px 0 #00000014",
-    ],
-    elevated: [
-      "0 2px 8px 0 #0000001f",
-      "0 2px 16px 0 #00000014",
-    ],
-    floating: [
-      "0 2px 8px 0 #0000001f",
-      "0 2px 24px 0 #00000014",
-    ],
+    raised: ["0 2px 4px 0 #0000001f", "0 2px 12px 0 #00000014"],
+    elevated: ["0 2px 8px 0 #0000001f", "0 2px 16px 0 #00000014"],
+    floating: ["0 2px 8px 0 #0000001f", "0 2px 24px 0 #00000014"],
   },
 };

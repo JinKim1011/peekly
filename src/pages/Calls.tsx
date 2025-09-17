@@ -1,2 +1,3 @@
 export default function Calls() {
-  return <div>Calls</div>;}
+  return <div>Calls</div>;
+}
