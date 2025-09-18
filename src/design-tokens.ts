@@ -17,6 +17,7 @@ export const designTokens = {
       elevation: "#fff",
       primary: "#fff",
       secondary: "#fbfbfd",
+      secondarySelected: "#e8e8ed",
       success: "#f5fff6",
       tertiary: "#f5f5f7",
       warning: "#fffef2",
