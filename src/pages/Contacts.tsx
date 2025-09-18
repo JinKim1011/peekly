@@ -3,12 +3,12 @@ import type { RootState } from "../store";
 import { addContact } from "../store/contactsSlice";
 
 
-export default function Customers() {
+export default function Contacts() {
   const contacts = useSelector((state: RootState) => state.contacts);
   const dispatch = useDispatch();
 
   return <div>
-    <h1>Customers</h1>
+    <h1>Contacts</h1>
 
     <button onClick={() => {
       // Dispatch the addContact action with a new contact object
