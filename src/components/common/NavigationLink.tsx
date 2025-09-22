@@ -1,13 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import type { ReactNode } from 'react';
 import { designTokens } from '../../design-tokens';
-
-type NavigationLinkProps = {
-    to: string;
-    label: string;
-    icon: ReactNode;
-    className?: string;
-};
+import type { NavigationLink as NavigationLinkProps } from '../types'
 
 export const NavigationLink = ({ to, label, icon, className }: NavigationLinkProps) => {
     const location = useLocation();
