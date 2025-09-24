@@ -1,3 +1,4 @@
+import type React from "react";
 import type { ReactNode } from "react";
 
 export type NavItem = {
@@ -21,5 +22,17 @@ export type NavigationLink = {
     to: string;
     label: string;
     icon: ReactNode;
+    className?: string;
+}
+
+export type ListItem = {
+    icon?: React.ReactNode;
+    imageSrc?: string;
+    text: string;
+    subText?: string;
+    infoText?: string;
+    selected?: boolean;
+    onClick?: () => void;
+    ariaLabel?: string;
     className?: string;
 }
