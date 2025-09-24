@@ -19,7 +19,7 @@ export const designTokens = {
       warning: "#fffef2",
       primary: "#fff",
       secondary: "#fbfbfd",
-      tertiary: "#050506ff",
+      tertiary: "#f5f5f7",
       selected: "#e8e8ed",
     },
     glyph: {
