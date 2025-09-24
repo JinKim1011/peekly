@@ -10,22 +10,22 @@ const callTypeIconMap = {
 
 export function CallItem({
     callType,
-    contactName,
+    contact,
     callTime,
     duration,
     selected,
     onClick
 }: {
     callType: 'outgoing' | 'incoming' | 'missed';
-    contactName: { name?: string; phoneNumber: string };
+    contact: {
+        name?: string;
+        phoneNumber: string
+    };
     callTime: string;
     duration?: string;
     selected?: boolean;
     onClick?: () => void;
 }) {
-    const text = contactName?.name ?? contactName?.phoneNumber;
-    const subText = new Date(callTime).toLocaleString();
-
     const durationNum = Number(duration);
     const hours = Math.floor(durationNum / 3600);
     const minutes = Math.round((durationNum % 3600) / 60);
@@ -40,12 +40,12 @@ export function CallItem({
     return (
         <ListItem
             icon={callTypeIconMap[callType]}
-            text={text}
-            subText={subText}
+            text={contact?.name ?? contact?.phoneNumber}
+            subText={new Date(callTime).toLocaleString()}
             infoText={infoText}
             selected={selected}
             onClick={onClick}
-            ariaLabel={`Call with ${text} at ${subText} during ${duration ? `, duration ${infoText}` : ''}`}
+            ariaLabel={`Call with ${contact?.name ?? contact?.phoneNumber} at ${new Date(callTime).toLocaleString()} ${duration ? ` for ${infoText}` : ''}`}
         />
     );
 }
