@@ -8,7 +8,7 @@ const callTypeIconMap = {
     missed: <PhoneMissed size={16} strokeWidth={1.5} color={designTokens.colors.glyph.default} />
 };
 
-export function CallsItem({
+export function CallItem({
     callType,
     contactName,
     callTime,
