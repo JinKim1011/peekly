@@ -15,12 +15,12 @@ export const designTokens = {
     fill: {
       error: "#fff2f4",
       elevation: "#fff",
+      success: "#f5fff6",
+      warning: "#fffef2",
       primary: "#fff",
       secondary: "#fbfbfd",
-      secondarySelected: "#e8e8ed",
-      success: "#f5fff6",
       tertiary: "#f5f5f7",
-      warning: "#fffef2",
+      selected: "#e8e8ed",
     },
     glyph: {
       default: "#1d1d1f",
