@@ -16,7 +16,7 @@ export const NavigationLink = ({ to, label, icon, className }: NavigationLinkPro
                 padding: `${designTokens.spacing.xs} ${designTokens.spacing.xxs}`,
                 borderRadius: designTokens.border.radius.roundSm,
                 gap: designTokens.spacing.xxs,
-                backgroundColor: isActive ? designTokens.colors.fill.secondarySelected : 'transparent',
+                backgroundColor: isActive ? designTokens.colors.fill.selected : 'transparent',
             }}
             aria-current={isActive ? 'page' : undefined}>
             {icon && <span style={{
