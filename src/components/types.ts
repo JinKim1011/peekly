@@ -1,3 +1,4 @@
+import type React from "react";
 import type { ReactNode } from "react";
 
 export type NavItem = {
@@ -22,4 +23,47 @@ export type NavigationLink = {
     label: string;
     icon: ReactNode;
     className?: string;
+}
+
+export type ListItem = {
+    icon?: React.ReactNode;
+    imageSrc?: string;
+    text: string;
+    subText?: string;
+    infoText?: string;
+    selected?: boolean;
+    onClick?: () => void;
+    ariaLabel?: string;
+    className?: string;
+}
+
+export type CallItem = {
+    callId: string;
+    callType: 'outgoing' | 'incoming' | 'missed';
+    callTime: string;
+    phoneNumber: string;
+    contactName?: ContactItem['contact'];
+    duration?: string;
+    selected?: boolean;
+    onClick?: () => void;
+};
+
+export type ContactItem = {
+    contact: {
+        name: string,
+        phoneNumber: string,
+        id: string,
+        avatarUrl?: string,
+        totalCallCount?: number
+    };
+    selected?: boolean;
+    onClick?: () => void;
+};
+
+export type CallList = {
+    calls: CallItem[];
+    selectedCallId?: string;
+    onCallSelect?: (callId: string) => void;
+    className?: string;
+    ariaLabel?: string;
 }
