@@ -1,21 +1,11 @@
 import { ListItem } from "../common/ListItem";
+import type { ContactItem as ContactItemProps } from "../types";
 
 export function ContactItem({
     contact,
     selected,
     onClick
-}: {
-    contact: {
-        name: string,
-        phoneNumber: string,
-        id: string,
-        avatarUrl?: string,
-        totalCallCount?: number
-    };
-    selected?: boolean;
-    onClick?: () => void;
-}) {
-
+}: ContactItemProps) {
     return (
         <ListItem
             text={contact.name}
