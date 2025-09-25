@@ -22,7 +22,7 @@ export const ListItem = ({
         borderRadius: designTokens.border.radius.roundMd,
         cursor: 'pointer',
         userSelect: 'none',
-
+        outline: 'none'
     };
 
     const mediaStyle: React.CSSProperties = {

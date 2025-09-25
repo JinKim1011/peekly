@@ -1,6 +1,7 @@
 import { designTokens } from "../../design-tokens";
 import { CallItem } from "./CallItem";
 import type { CallList as ContactListProps, ContactItem } from "../types";
+import { useCallback } from "react";
 
 export function CallList({
     calls,
@@ -17,8 +18,26 @@ export function CallList({
         display: 'flex',
         flexDirection: 'column',
         gap: designTokens.spacing.xxxs,
-        flex: '1 0 0'
+        flex: '1 0 0',
     };
+
+    const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLUListElement>) => {
+        if (!calls.length || !onCallSelect) return;
+
+        const index = selectedCallId
+            ? calls.findIndex(call => call.callId === selectedCallId)
+            : -1;
+
+        if (event.key === 'ArrowDown') {
+            const nextIndex = index < calls.length - 1 ? index + 1 : 0;
+            onCallSelect(calls[nextIndex].callId);
+            event.preventDefault();
+        } else if (event.key === 'ArrowUp') {
+            const prevIndex = index > 0 ? index - 1 : calls.length - 1;
+            onCallSelect(calls[prevIndex].callId);
+            event.preventDefault();
+        }
+    }, [calls, selectedCallId, onCallSelect]);
 
     return (
         <ul
@@ -27,6 +46,7 @@ export function CallList({
             className={className}
             aria-label={ariaLabel || 'Call List'}
             tabIndex={0}
+            onKeyDown={handleKeyDown}
         >
             {calls.map(call => {
 
