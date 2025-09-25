@@ -36,3 +36,34 @@ export type ListItem = {
     ariaLabel?: string;
     className?: string;
 }
+
+export type CallItem = {
+    callId: string;
+    callType: 'outgoing' | 'incoming' | 'missed';
+    callTime: string;
+    phoneNumber: string;
+    contactName?: ContactItem['contact'];
+    duration?: string;
+    selected?: boolean;
+    onClick?: () => void;
+};
+
+export type ContactItem = {
+    contact: {
+        name: string,
+        phoneNumber: string,
+        id: string,
+        avatarUrl?: string,
+        totalCallCount?: number
+    };
+    selected?: boolean;
+    onClick?: () => void;
+};
+
+export type CallList = {
+    calls: CallItem[];
+    selectedCallId?: string;
+    onCallSelect?: (callId: string) => void;
+    className?: string;
+    ariaLabel?: string;
+}
