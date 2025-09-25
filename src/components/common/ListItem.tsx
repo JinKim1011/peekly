@@ -8,10 +8,10 @@ export const ListItem = ({
     text,
     subText,
     infoText,
-    selected = false,
-    onClick,
+    selected,
     ariaLabel,
-    className
+    className,
+    onClick
 }: ListItemProps) => {
 
     const wrapperStyle: React.CSSProperties = {
@@ -20,8 +20,9 @@ export const ListItem = ({
         gap: designTokens.spacing.xs,
         padding: designTokens.spacing.s,
         borderRadius: designTokens.border.radius.roundMd,
-        cursor: onClick ? 'pointer' : 'default',
-        background: selected ? designTokens.colors.fill.tertiary : undefined,
+        cursor: 'pointer',
+        userSelect: 'none',
+
     };
 
     const mediaStyle: React.CSSProperties = {
@@ -59,26 +60,13 @@ export const ListItem = ({
         flexShrink: 0,
     };
 
-    // keyboard activation for accessibility
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (onClick && (e.key === "Enter" || e.key === " ")) {
-            e.preventDefault();
-            onClick();
-        }
-    };
-
-    // focus outlined style
-    const applyFocusOutlined = (el: HTMLDivElement) => {
-        el.style.boxShadow = `0 0 0 ${designTokens.border.width[1]} ${designTokens.colors.border.focus}`;
-    };
-    const removeFocusOutlined = (el: HTMLDivElement) => {
-        el.style.boxShadow = "none";
-    };
-
     return (
         <div
             onClick={onClick}
-            style={wrapperStyle}
+            style={{
+                ...wrapperStyle,
+                background: selected ? designTokens.colors.fill.tertiary : undefined
+            }}
             className={className}
 
             // accessibility
@@ -86,21 +74,6 @@ export const ListItem = ({
             tabIndex={onClick ? 0 : -1}
             aria-label={ariaLabel ?? text}
             aria-current={selected ? 'true' : undefined}
-
-            // keyboard and focus handling
-            onKeyDown={handleKeyDown}
-            onFocus={(e) => applyFocusOutlined(e.currentTarget)}
-            onBlur={(e) => removeFocusOutlined(e.currentTarget)}
-            onMouseEnter={(e) => {
-                if (!selected) {
-                    e.currentTarget.style.backgroundColor = designTokens.colors.fill.tertiary;
-                }
-            }}
-            onMouseLeave={(e) => {
-                if (!selected) {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                }
-            }}
         >
             {(icon || imageSrc) && (
                 <div style={mediaStyle}>
