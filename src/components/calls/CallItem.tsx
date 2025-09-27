@@ -4,9 +4,9 @@ import { ListItem } from '../common/ListItem';
 import type { CallItem as CallItemProps } from '../types'
 
 const callTypeIconMap = {
-    outgoing: <PhoneOutgoing size={16} strokeWidth={1.5} color={designTokens.colors.glyph.default} />,
-    incoming: <PhoneIncoming size={16} strokeWidth={1.5} color={designTokens.colors.glyph.default} />,
-    missed: <PhoneMissed size={16} strokeWidth={1.5} color={designTokens.colors.glyph.default} />
+    outgoing: <PhoneOutgoing size={20} strokeWidth={1.5} color={designTokens.colors.glyph.default} />,
+    incoming: <PhoneIncoming size={20} strokeWidth={1.5} color={designTokens.colors.glyph.default} />,
+    missed: <PhoneMissed size={20} strokeWidth={1.5} color={designTokens.colors.glyph.default} />
 };
 
 export function CallItem({
