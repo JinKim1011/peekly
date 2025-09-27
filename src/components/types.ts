@@ -67,3 +67,17 @@ export type CallList = {
     className?: string;
     ariaLabel?: string;
 }
+
+export type TitleWrapper = {
+    title: string;
+    titleSize: `l` | `m` | `s`;
+    divider?: boolean;
+    className?: string;
+};
+
+export type Divider = {
+    direction: `horizontal` | `vertical`;
+    spacing: `l` | `m` | `s` | `xs` | `xxs`;
+    color: string;
+    width: string;
+}
