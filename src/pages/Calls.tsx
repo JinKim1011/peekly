@@ -2,6 +2,7 @@ import { mockCalls, mockContacts } from '../mocks/data';
 import { CallList } from '../components/calls/CallList';
 import { useState } from 'react';
 import { designTokens } from '../design-tokens';
+import { TitleWrapper } from '../components/common/TitleWrapper';
 
 
 export default function Calls() {
@@ -26,15 +27,37 @@ export default function Calls() {
 
   const selectedCall = callsWithContact.find(call => call.callId === selectedId);
 
+  const pageStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    height: '100%'
+  };
+
+  const listPaneStyle: React.CSSProperties = {
+    display: 'flex',
+    width: 420,
+    flexDirection: 'column',
+    alignSelf: 'stretch',
+    borderRight: `${designTokens.border.width[1]} solid ${designTokens.colors.border.muted}`,
+    flex: '0 0 auto',
+  };
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
-      <CallList
-        calls={callsWithContact}
-        selectedCallId={selectedId}
-        onCallSelect={setSelectedId}
-        className=""
-        ariaLabel="Call History"
-      />
+    <div style={pageStyle}>
+      <div style={listPaneStyle}>
+        <TitleWrapper
+          title="Recents"
+          titleSize="s"
+          divider={false}
+        />
+        <CallList
+          calls={callsWithContact}
+          selectedCallId={selectedId}
+          onCallSelect={setSelectedId}
+          className=""
+          ariaLabel="Call History"
+        />
+      </div>
       <div style={{
         maxWidth: 400,
         margin: '0 auto',
@@ -42,7 +65,6 @@ export default function Calls() {
         flexDirection: 'column',
         flex: `1 0 0`,
         padding: `0 ${designTokens.spacing.l}`,
-        borderLeft: `${designTokens.border.width[1]} solid ${designTokens.colors.border.muted}`,
       }}>
         <strong style={designTokens.typography.title3}>Selected Call Debug</strong>
         <pre style={{
