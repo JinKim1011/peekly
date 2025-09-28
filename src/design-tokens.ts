@@ -28,6 +28,7 @@ export const designTokens = {
       muted: "#6e6e73",
       success: "#008009",
       warning: "#977009",
+      focus: "#0071e3",
     },
   },
   spacing: {
