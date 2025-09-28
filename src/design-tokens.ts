@@ -112,7 +112,7 @@ export const designTokens = {
   border: {
     radius: {
       sharp: "0",
-      circle: "100%",
+      circle: "1000px",
       roundXsm: "4px",
       roundSm: "8px",
       roundMd: "12px",
