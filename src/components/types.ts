@@ -81,3 +81,11 @@ export type Divider = {
     color: string;
     width: string;
 }
+
+export type FilterChip = {
+    label: string;
+    selected?: boolean;
+    ariaLabel?: string;
+    onClick?: () => void;
+    className?: string;
+}
