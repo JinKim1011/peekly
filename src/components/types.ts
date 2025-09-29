@@ -89,3 +89,26 @@ export type FilterChip = {
     onClick?: () => void;
     className?: string;
 }
+
+export type FilterGroupOption = {
+    id: string;
+    label: string;
+}
+
+export type FilterGroup = {
+    options: FilterGroupOption[];
+    value: string;
+    onChange: (value: string) => void;
+    className?: string;
+    ariaLabel?: string;
+}
+
+export const CALL_DIRECTION = ['all', 'missed', 'incoming', 'outgoing'] as const;
+export type CallDirection = typeof CALL_DIRECTION[number];
+
+export type CallFilter = {
+    value: CallDirection;
+    onChange: (value: CallDirection) => void;
+    className?: string;
+    ariaLabel?: string;
+}
