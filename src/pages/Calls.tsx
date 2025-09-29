@@ -1,8 +1,10 @@
 import { mockCalls, mockContacts } from '../mocks/data';
 import { CallList } from '../components/calls/CallList';
+import { CallFilter } from '../components/calls/CallFilter';
 import { useState } from 'react';
 import { designTokens } from '../design-tokens';
 import { TitleWrapper } from '../components/common/TitleWrapper';
+import type { CallDirection } from '../components/types';
 
 
 export default function Calls() {
@@ -42,6 +44,17 @@ export default function Calls() {
     flex: '0 0 auto',
   };
 
+  const [filterValue, setFilterValue] = useState<CallDirection>("all");
+
+  function handleFilterChange(id: CallDirection) {
+    setFilterValue(id);
+    setSelectedId(undefined);
+  }
+
+  const filteredCalls = filterValue === "all"
+    ? callsWithContact
+    : callsWithContact.filter(call => call.callType === filterValue);
+
   return (
     <div style={pageStyle}>
       <div style={listPaneStyle}>
@@ -50,11 +63,18 @@ export default function Calls() {
           titleSize="s"
           divider={false}
         />
+        <CallFilter
+          value={filterValue}
+          onChange={(id) => {
+            console.log('Filter changed to:', id);
+            handleFilterChange(id);
+          }}
+          ariaLabel="Filter calls by direction"
+        />
         <CallList
-          calls={callsWithContact}
+          calls={filteredCalls}
           selectedCallId={selectedId}
           onCallSelect={setSelectedId}
-          className=""
           ariaLabel="Call History"
         />
       </div>

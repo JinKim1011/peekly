@@ -28,6 +28,7 @@ export const designTokens = {
       muted: "#6e6e73",
       success: "#008009",
       warning: "#977009",
+      focus: "#0071e3",
     },
   },
   spacing: {
@@ -111,7 +112,7 @@ export const designTokens = {
   border: {
     radius: {
       sharp: "0",
-      circle: "100%",
+      circle: "1000px",
       roundXsm: "4px",
       roundSm: "8px",
       roundMd: "12px",
