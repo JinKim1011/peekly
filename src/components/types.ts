@@ -112,3 +112,10 @@ export type CallFilter = {
     className?: string;
     ariaLabel?: string;
 }
+
+export type State = {
+    variant: 'empty' | 'loading' | 'error';
+    title: string;
+    icon?: React.ReactNode;
+    className?: string;
+}
