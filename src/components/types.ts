@@ -66,6 +66,8 @@ export type CallList = {
     onCallSelect?: (callId: string) => void;
     className?: string;
     ariaLabel?: string;
+    loading: boolean;
+    error?: string;
 }
 
 export type TitleWrapper = {
@@ -111,4 +113,11 @@ export type CallFilter = {
     onChange: (value: CallDirection) => void;
     className?: string;
     ariaLabel?: string;
+}
+
+export type State = {
+    variant: 'empty' | 'loading' | 'error';
+    title: string;
+    icon?: React.ReactNode;
+    className?: string;
 }

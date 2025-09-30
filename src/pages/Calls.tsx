@@ -4,15 +4,19 @@ import { CallFilter } from '../components/calls/CallFilter';
 import { useState } from 'react';
 import { designTokens } from '../design-tokens';
 import { TitleWrapper } from '../components/common/TitleWrapper';
+import { State } from '../components/common/State';
 import type { CallDirection } from '../components/types';
 
 
 export default function Calls() {
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
+  const [loading] = useState(false);
+  const [error] = useState<string | undefined>(undefined);
 
-  if (!mockCalls.length) {
-    return <div>No calls found</div>;
-  }
+  const stateText =
+    error ? 'Something went wrong. Please try again later'
+      : loading ? 'Please wait...'
+        : !selectedId ? 'No call history selected' : '';
 
   const callsWithContact = mockCalls.map(call => {
     const contact = mockContacts.find(c => c.id === call.contactId);
@@ -76,23 +80,32 @@ export default function Calls() {
           selectedCallId={selectedId}
           onCallSelect={setSelectedId}
           ariaLabel="Call History"
+          loading={loading}
+          error={error}
         />
       </div>
       <div style={{
         maxWidth: 400,
-        margin: '0 auto',
+        margin: 'auto',
         display: 'flex',
         flexDirection: 'column',
         flex: `1 0 0`,
         padding: `0 ${designTokens.spacing.l}`,
       }}>
-        <strong style={designTokens.typography.title3}>Selected Call Debug</strong>
-        <pre style={{
-          ...designTokens.typography.micro,
-          whiteSpace: 'pre-wrap',
-        }}>
-          {selectedCall ? JSON.stringify(selectedCall, null, 2) : 'No call selected'}
-        </pre>
+        {error ? (
+          <State variant="error" title={stateText} />
+        ) : loading ? (
+          <State variant="loading" title={stateText} />
+        ) : selectedCall ? (
+          <pre style={{
+            ...designTokens.typography.micro,
+            whiteSpace: 'pre-wrap',
+          }}>
+            {JSON.stringify(selectedCall, null, 2)}
+          </pre>
+        ) : (
+          <State variant="empty" title={stateText} />
+        )}
       </div>
     </div>
   );
