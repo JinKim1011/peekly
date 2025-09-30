@@ -66,6 +66,8 @@ export type CallList = {
     onCallSelect?: (callId: string) => void;
     className?: string;
     ariaLabel?: string;
+    loading: boolean;
+    error?: string;
 }
 
 export type TitleWrapper = {
