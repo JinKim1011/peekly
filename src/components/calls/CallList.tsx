@@ -2,6 +2,7 @@ import { designTokens } from "../../design-tokens";
 import { CallItem } from "./CallItem";
 import type { CallList as ContactListProps, ContactItem } from "../types";
 import { useCallback } from "react";
+import { State } from '../common/State';
 
 export function CallList({
     calls,
@@ -9,6 +10,8 @@ export function CallList({
     onCallSelect,
     className,
     ariaLabel,
+    loading,
+    error
 }: ContactListProps & { contact?: ContactItem['contact'] }) {
 
     const listStyle: React.CSSProperties = {
@@ -20,6 +23,10 @@ export function CallList({
         gap: designTokens.spacing.xxxs,
         flex: '1 0 0',
     };
+
+    if (!calls.length) {
+        return <State variant="empty" title={`No calls found`} />;
+    }
 
     const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLUListElement>) => {
         if (!calls.length || !onCallSelect) return;
@@ -39,6 +46,19 @@ export function CallList({
         }
     }, [calls, selectedCallId, onCallSelect]);
 
+    const stateText =
+        error ? 'Something went wrong. Please try again later'
+            : loading ? 'Please wait...'
+                : !selectedCallId ? 'No call found' : '';
+
+    if (error) {
+        return <State variant="error" title={stateText} />;
+    } if (loading) {
+        return <State variant="loading" title={stateText} />;
+    } if (!calls.length) {
+        return <State variant="empty" title={stateText} />;
+    }
+
     return (
         <ul
             role="list"
@@ -48,21 +68,18 @@ export function CallList({
             tabIndex={0}
             onKeyDown={handleKeyDown}
         >
-            {calls.map(call => {
-
-                return (
-                    <CallItem
-                        callId={call.callId}
-                        callType={call.callType}
-                        callTime={call.callTime}
-                        phoneNumber={call.phoneNumber}
-                        contactName={call.contactName}
-                        duration={call.duration}
-                        selected={call.callId === selectedCallId}
-                        onClick={() => onCallSelect?.(call.callId)}
-                    />
-                );
-            })}
+            {calls.map(call => (
+                <CallItem
+                    callId={call.callId}
+                    callType={call.callType}
+                    callTime={call.callTime}
+                    phoneNumber={call.phoneNumber}
+                    contactName={call.contactName}
+                    duration={call.duration}
+                    selected={call.callId === selectedCallId}
+                    onClick={() => onCallSelect?.(call.callId)}
+                />
+            ))}
         </ul>
     );
 }
