@@ -121,3 +121,11 @@ export type State = {
     icon?: React.ReactNode;
     className?: string;
 }
+
+export type Button = {
+    variant: 'primary' | 'secondary' | 'void' | 'outlined';
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    className?: string;
+}
