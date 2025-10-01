@@ -7,15 +7,15 @@ import App from "./App.tsx";
 import "./styles/index.css";
 
 async function enableMocks() {
-  if (import.meta.env.MODE! === 'development') return;
-  const { worker } = await import('./mocks/browser');
-
-  await worker.start({
-    serviceWorker: {
-      url: '/mockServiceWorker.js',
-    },
-    onUnhandledRequest: 'bypass'
-  });
+  if (import.meta.env.MODE === 'development') {
+    const { worker } = await import('./mocks/browser');
+    await worker.start({
+      serviceWorker: {
+        url: '/mockServiceWorker.js',
+      },
+      onUnhandledRequest: 'bypass'
+    });
+  }
 }
 
 enableMocks().then(() => {
