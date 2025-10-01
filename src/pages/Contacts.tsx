@@ -1,7 +1,6 @@
 import { Button } from "../components/common/Button";
 import { ContactList } from "../components/contacts/ContactList";
-import { mockContacts } from '../mocks/data';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { designTokens } from '../design-tokens';
 import { ListPaneStyle } from '../styles/ListPane';
 import { PageStyle } from "../styles/Page";
@@ -11,27 +10,44 @@ import { State } from "../components/common/State";
 
 
 export default function Contacts() {
+  const [contacts, setContacts] = useState<any[]>([]);
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
-  const [loading] = useState(false);
-  const [error] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | undefined>(undefined);
 
-  const contactsWithContact = mockContacts.map(contact => {
-    return {
-      ...contact
-    }
-  })
 
-  const buttonWrapperStyle: React.CSSProperties = {
-    display: 'flex',
-    padding: `${designTokens.spacing.s} ${designTokens.spacing.l} ${designTokens.spacing.l}`,
-  }
+  useEffect(() => {
+    setLoading(true);
+    fetch('/api/contacts')
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Contacts fetch failed");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setContacts(data);
+        setError(undefined);
+      })
+      .catch(() => setError("Failed to load contacts"))
+      .finally(() => setLoading(false));
+  }, []);
 
   const stateText =
     error ? 'Something went wrong. Please try again later'
       : loading ? 'Please wait...'
-        : !selectedId ? 'No customer selected' : '';
+        : contacts.length === 0 ? 'No contacts found' : !selectedId ? 'No customer selected' : '';
 
-  const selectedContact = contactsWithContact.find(contact => contact.id === selectedId);
+  if (loading) return <State variant="loading" title={stateText} />;
+  if (error) return <State variant="error" title={stateText} />;
+  if (contacts.length === 0) return <State variant="empty" title={stateText} />;
+
+  const selectedContact = contacts.find(contact => contact.id === selectedId);
+
+  const buttonWrapperStyle: React.CSSProperties = {
+    display: 'flex',
+    padding: `${designTokens.spacing.s} ${designTokens.spacing.l} ${designTokens.spacing.l}`,
+  };
 
   return (
     <div style={PageStyle}>
@@ -53,7 +69,7 @@ export default function Contacts() {
           />
         </div>
         <ContactList
-          contacts={contactsWithContact}
+          contacts={contacts}
           selectedContactId={selectedId}
           onContactSelect={setSelectedId}
           ariaLabel="Customer List"
@@ -69,11 +85,7 @@ export default function Contacts() {
         flex: `1 0 0`,
         padding: `0 ${designTokens.spacing.l}`,
       }}>
-        {error ? (
-          <State variant="error" title={stateText} />
-        ) : loading ? (
-          <State variant="loading" title={stateText} />
-        ) : selectedContact ? (
+        {selectedContact ? (
           <pre style={{
             ...designTokens.typography.micro,
             whiteSpace: 'pre-wrap',
