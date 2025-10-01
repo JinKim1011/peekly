@@ -1,33 +1,38 @@
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store";
-import { addContact } from "../store/contactsSlice";
 import { Button } from "../components/common/Button";
+import { ContactList } from "../components/contacts/ContactList";
+import { mockContacts } from '../mocks/data';
+import { useState } from 'react';
+
 
 
 export default function Contacts() {
-  const contacts = useSelector((state: RootState) => state.contacts);
-  const dispatch = useDispatch();
+  const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
+  const [loading] = useState(false);
+  const [error] = useState<string | undefined>(undefined);
 
-  return <div>
-    <h1>Contacts</h1>
+  const contactsWithContact = mockContacts.map(contact => {
+    return {
+      ...contact
+    }
+  })
 
-    <Button
-      variant="outlined"
-      label="+ Add Customer"
-      disabled={false}
-      onClick={() => {
-        // Dispatch the addContact action with a new contact object
-        dispatch(
-          addContact({ id: Date.now().toString(), name: "New Contact", phone: "123456789" })
-        );
-      }
-      }
-    />
-
-    <ul>
-      {contacts.items.map(contact => (
-        <li key={contact.id}>{contact.name} - {contact.phone}</li>
-      ))}
-    </ul>
-  </div>;
+  return (
+    <div>
+      <h1>Contacts</h1>
+      <Button
+        variant="outlined"
+        label="+ Add Customer"
+        disabled={false}
+        onClick={() => { }}
+      />
+      <ContactList
+        contacts={contactsWithContact}
+        selectedContactId={selectedId}
+        onContactSelect={setSelectedId}
+        ariaLabel="Customer List"
+        loading={loading}
+        error={error}
+      ></ContactList>
+    </div >
+  );
 }

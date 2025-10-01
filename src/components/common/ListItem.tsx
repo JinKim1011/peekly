@@ -1,10 +1,10 @@
 import type React from 'react';
 import type { ListItem as ListItemProps } from '../types';
 import { designTokens } from '../../design-tokens';
+import Avvvatars from 'avvvatars-react'
 
 export const ListItem = ({
     icon,
-    imageSrc,
     text,
     subText,
     infoText,
@@ -60,6 +60,8 @@ export const ListItem = ({
         flexShrink: 0,
     };
 
+    const seed = text || 'unknown';
+
     return (
         <div
             onClick={onClick}
@@ -75,12 +77,10 @@ export const ListItem = ({
             aria-label={ariaLabel ?? text}
             aria-current={selected ? 'true' : undefined}
         >
-            {(icon || imageSrc) && (
-                <div style={mediaStyle}>
-                    {icon && <span>{icon}</span>}
-                    {imageSrc && <img src={imageSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
-                </div>
-            )}
+            <div style={mediaStyle}>
+                {icon && <span>{icon}</span>}
+                {!icon && <Avvvatars value={seed} size={32} />}
+            </div>
             <div style={textWrapperStyle}>
                 <span style={textStyle}>{text}</span>
                 {subText && <span style={subTextStyle}>{subText}</span>}

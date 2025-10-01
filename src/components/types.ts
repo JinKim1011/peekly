@@ -27,7 +27,6 @@ export type NavigationLink = {
 
 export type ListItem = {
     icon?: React.ReactNode;
-    imageSrc?: string;
     text: string;
     subText?: string;
     infoText?: string;
@@ -48,22 +47,32 @@ export type CallItem = {
     onClick?: () => void;
 };
 
-export type ContactItem = {
-    contact: {
-        name: string,
-        phoneNumber: string,
-        id: string,
-        avatarUrl?: string,
-        totalCallCount?: number
-    };
-    selected?: boolean;
-    onClick?: () => void;
-};
 
 export type CallList = {
     calls: CallItem[];
     selectedCallId?: string;
     onCallSelect?: (callId: string) => void;
+    className?: string;
+    ariaLabel?: string;
+    loading: boolean;
+    error?: string;
+}
+
+export type ContactItem = {
+    contact: {
+        name: string;
+        phoneNumber: string;
+        id: string;
+        totalCallCount?: number;
+    };
+    selected?: boolean;
+    onClick?: () => void;
+};
+
+export type ContactList = {
+    contacts: ContactItem['contact'][];
+    selectedContactId?: string;
+    onContactSelect?: (contactId: string) => void;
     className?: string;
     ariaLabel?: string;
     loading: boolean;

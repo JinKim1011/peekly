@@ -24,10 +24,6 @@ export function CallList({
         flex: '1 0 0',
     };
 
-    if (!calls.length) {
-        return <State variant="empty" title={`No calls found`} />;
-    }
-
     const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLUListElement>) => {
         if (!calls.length || !onCallSelect) return;
 
