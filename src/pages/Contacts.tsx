@@ -3,7 +3,8 @@ import { ContactList } from "../components/contacts/ContactList";
 import { mockContacts } from '../mocks/data';
 import { useState } from 'react';
 import { designTokens } from '../design-tokens';
-import { listPaneStyle } from '../styles/ListPane';
+import { ListPaneStyle } from '../styles/ListPane';
+import { PageStyle } from "../styles/Page";
 import { TitleWrapper } from "../components/common/TitleWrapper";
 
 
@@ -25,31 +26,33 @@ export default function Contacts() {
   }
 
   return (
-    <div style={listPaneStyle}>
-      <TitleWrapper
-        title="Customers"
-        titleSize="s"
-        divider={false}
-      />
-      <div
-        style={{
-          ...buttonWrapperStyle
-        }}>
-        <Button
-          variant="outlined"
-          label="+ Add Customer"
-          disabled={false}
-          onClick={() => { }}
+    <div>
+      <div style={ListPaneStyle}>
+        <TitleWrapper
+          title="Customers"
+          titleSize="s"
+          divider={false}
+        />
+        <div
+          style={{
+            ...buttonWrapperStyle
+          }}>
+          <Button
+            variant="outlined"
+            label="+ Add Customer"
+            disabled={false}
+            onClick={() => { }}
+          />
+        </div>
+        <ContactList
+          contacts={contactsWithContact}
+          selectedContactId={selectedId}
+          onContactSelect={setSelectedId}
+          ariaLabel="Customer List"
+          loading={loading}
+          error={error}
         />
       </div>
-      <ContactList
-        contacts={contactsWithContact}
-        selectedContactId={selectedId}
-        onContactSelect={setSelectedId}
-        ariaLabel="Customer List"
-        loading={loading}
-        error={error}
-      ></ContactList>
-    </div >
+    </div>
   );
 }

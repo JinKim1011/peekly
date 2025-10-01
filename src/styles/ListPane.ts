@@ -1,6 +1,6 @@
 import { designTokens } from "../design-tokens";
 
-export const listPaneStyle: React.CSSProperties = {
+export const ListPaneStyle: React.CSSProperties = {
     display: 'flex',
     width: 420,
     flexDirection: 'column',

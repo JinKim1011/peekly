@@ -6,7 +6,7 @@ import { designTokens } from '../design-tokens';
 import { TitleWrapper } from '../components/common/TitleWrapper';
 import { State } from '../components/common/State';
 import type { CallDirection } from '../components/types';
-import { listPaneStyle } from '../styles/ListPane';
+import { ListPaneStyle } from '../styles/ListPane';
 
 
 export default function Calls() {
@@ -53,7 +53,7 @@ export default function Calls() {
 
   return (
     <div style={pageStyle}>
-      <div style={listPaneStyle}>
+      <div style={ListPaneStyle}>
         <TitleWrapper
           title="Recents"
           titleSize="s"
