@@ -2,6 +2,8 @@ import { Button } from "../components/common/Button";
 import { ContactList } from "../components/contacts/ContactList";
 import { mockContacts } from '../mocks/data';
 import { useState } from 'react';
+import { designTokens } from '../design-tokens';
+import { listPaneStyle } from '../styles/ListPane';
 
 
 
@@ -17,8 +19,7 @@ export default function Contacts() {
   })
 
   return (
-    <div>
-      <h1>Contacts</h1>
+    <div style={listPaneStyle}>
       <Button
         variant="outlined"
         label="+ Add Customer"

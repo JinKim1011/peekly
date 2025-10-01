@@ -6,6 +6,7 @@ import { designTokens } from '../design-tokens';
 import { TitleWrapper } from '../components/common/TitleWrapper';
 import { State } from '../components/common/State';
 import type { CallDirection } from '../components/types';
+import { listPaneStyle } from '../styles/ListPane';
 
 
 export default function Calls() {
@@ -37,15 +38,6 @@ export default function Calls() {
     display: 'flex',
     flexDirection: 'row',
     height: '100%'
-  };
-
-  const listPaneStyle: React.CSSProperties = {
-    display: 'flex',
-    width: 420,
-    flexDirection: 'column',
-    alignSelf: 'stretch',
-    borderRight: `${designTokens.border.width[1]} solid ${designTokens.colors.border.muted}`,
-    flex: '0 0 auto',
   };
 
   const [filterValue, setFilterValue] = useState<CallDirection>("all");
