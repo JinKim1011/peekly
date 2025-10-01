@@ -6,6 +6,8 @@ import { designTokens } from '../design-tokens';
 import { TitleWrapper } from '../components/common/TitleWrapper';
 import { State } from '../components/common/State';
 import type { CallDirection } from '../components/types';
+import { ListPaneStyle } from '../styles/ListPane';
+import { PageStyle } from "../styles/Page";
 
 
 export default function Calls() {
@@ -33,21 +35,6 @@ export default function Calls() {
 
   const selectedCall = callsWithContact.find(call => call.callId === selectedId);
 
-  const pageStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'row',
-    height: '100%'
-  };
-
-  const listPaneStyle: React.CSSProperties = {
-    display: 'flex',
-    width: 420,
-    flexDirection: 'column',
-    alignSelf: 'stretch',
-    borderRight: `${designTokens.border.width[1]} solid ${designTokens.colors.border.muted}`,
-    flex: '0 0 auto',
-  };
-
   const [filterValue, setFilterValue] = useState<CallDirection>("all");
 
   function handleFilterChange(id: CallDirection) {
@@ -60,8 +47,8 @@ export default function Calls() {
     : callsWithContact.filter(call => call.callType === filterValue);
 
   return (
-    <div style={pageStyle}>
-      <div style={listPaneStyle}>
+    <div style={PageStyle}>
+      <div style={ListPaneStyle}>
         <TitleWrapper
           title="Recents"
           titleSize="s"

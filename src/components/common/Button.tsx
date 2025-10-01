@@ -11,7 +11,7 @@ export function Button({
 
     const baseStyle: React.CSSProperties = {
         ...designTokens.typography.body,
-        padding: `${designTokens.spacing.xs} ${designTokens.spacing.s}`,
+        padding: `${designTokens.spacing.xxs} ${designTokens.spacing.xs}`,
         borderRadius: `${designTokens.border.radius.roundMd}`,
         cursor: disabled ? 'not-allowed' : 'pointer',
         border: 'none',
