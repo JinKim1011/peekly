@@ -7,6 +7,7 @@ import { TitleWrapper } from '../components/common/TitleWrapper';
 import { State } from '../components/common/State';
 import type { CallDirection } from '../components/types';
 import { ListPaneStyle } from '../styles/ListPane';
+import { PageStyle } from "../styles/Page";
 
 
 export default function Calls() {
@@ -34,12 +35,6 @@ export default function Calls() {
 
   const selectedCall = callsWithContact.find(call => call.callId === selectedId);
 
-  const pageStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'row',
-    height: '100%'
-  };
-
   const [filterValue, setFilterValue] = useState<CallDirection>("all");
 
   function handleFilterChange(id: CallDirection) {
@@ -52,7 +47,7 @@ export default function Calls() {
     : callsWithContact.filter(call => call.callType === filterValue);
 
   return (
-    <div style={pageStyle}>
+    <div style={PageStyle}>
       <div style={ListPaneStyle}>
         <TitleWrapper
           title="Recents"

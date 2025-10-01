@@ -26,7 +26,7 @@ export default function Contacts() {
   }
 
   return (
-    <div>
+    <div style={PageStyle}>
       <div style={ListPaneStyle}>
         <TitleWrapper
           title="Customers"
