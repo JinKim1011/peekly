@@ -4,6 +4,7 @@ import { mockContacts } from '../mocks/data';
 import { useState } from 'react';
 import { designTokens } from '../design-tokens';
 import { listPaneStyle } from '../styles/ListPane';
+import { TitleWrapper } from "../components/common/TitleWrapper";
 
 
 
@@ -18,14 +19,29 @@ export default function Contacts() {
     }
   })
 
+  const buttonWrapperStyle: React.CSSProperties = {
+    display: 'flex',
+    padding: `${designTokens.spacing.s} ${designTokens.spacing.l} ${designTokens.spacing.l}`,
+  }
+
   return (
     <div style={listPaneStyle}>
-      <Button
-        variant="outlined"
-        label="+ Add Customer"
-        disabled={false}
-        onClick={() => { }}
+      <TitleWrapper
+        title="Customers"
+        titleSize="s"
+        divider={false}
       />
+      <div
+        style={{
+          ...buttonWrapperStyle
+        }}>
+        <Button
+          variant="outlined"
+          label="+ Add Customer"
+          disabled={false}
+          onClick={() => { }}
+        />
+      </div>
       <ContactList
         contacts={contactsWithContact}
         selectedContactId={selectedId}
