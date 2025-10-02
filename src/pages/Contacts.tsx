@@ -1,20 +1,17 @@
-import { Button } from "../components/common/Button";
-import { ContactList } from "../components/contacts/ContactList";
 import { useState, useEffect } from 'react';
-import { designTokens } from '../design-tokens';
-import { ListPaneStyle } from '../styles/ListPane';
-import { PageStyle } from "../styles/Page";
+import { ContactList } from "../components/contacts/ContactList";
 import { TitleWrapper } from "../components/common/TitleWrapper";
 import { State } from "../components/common/State";
-
-
+import { Button } from "../components/common/Button";
+import { ListPaneStyle } from '../styles/ListPane';
+import { PageStyle } from "../styles/Page";
+import { designTokens } from '../design-tokens';
 
 export default function Contacts() {
   const [contacts, setContacts] = useState<any[]>([]);
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
-
 
   useEffect(() => {
     setLoading(true);
