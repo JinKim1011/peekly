@@ -4,17 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/index.ts";
 import App from "./App.tsx";
-import "./styles/index.css";
+import './styles/index.css'
 
 async function enableMocks() {
   if (import.meta.env.MODE === 'development') {
     const { worker } = await import('./mocks/browser');
-    await worker.start({
-      serviceWorker: {
-        url: '/mockServiceWorker.js',
-      },
-      onUnhandledRequest: 'bypass'
-    });
+    await worker.start({ onUnhandledRequest: 'bypass' });
   }
 }
 
