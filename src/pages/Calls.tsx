@@ -1,50 +1,76 @@
-import { mockCalls, mockContacts } from '../mocks/data';
+import { useState, useEffect } from 'react';
 import { CallList } from '../components/calls/CallList';
 import { CallFilter } from '../components/calls/CallFilter';
-import { useState } from 'react';
-import { designTokens } from '../design-tokens';
+import type { CallDirection } from '../components/types';
 import { TitleWrapper } from '../components/common/TitleWrapper';
 import { State } from '../components/common/State';
-import type { CallDirection } from '../components/types';
 import { ListPaneStyle } from '../styles/ListPane';
 import { PageStyle } from "../styles/Page";
-
+import { designTokens } from '../design-tokens';
 
 export default function Calls() {
+  const [calls, setCalls] = useState<any[]>([]);
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
-  const [loading] = useState(false);
-  const [error] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [filterValue, setFilterValue] = useState<CallDirection>("all");
+
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([
+      fetch('/api/calls'),
+      fetch('/api/contacts')
+    ])
+      .then(async ([callsResponse, contactsResponse]) => {
+        if (!callsResponse.ok) {
+          throw new Error("Calls fetch failed");
+        }
+        if (!contactsResponse.ok) {
+          throw new Error("Contacts fetch failed");
+        }
+        const calls = await callsResponse.json();
+        const contacts = await contactsResponse.json();
+        return { calls, contacts };
+      })
+      .then((data) => {
+        const callsWithType = data.calls.map((call: any) => {
+          const foundContact = data.contacts.find((contact: any) => contact.id === call.contactId);
+          return {
+            ...call,
+            callType: call.direction,
+            callTime: call.startedAt,
+            duration: call.duration != null ? `${call.duration}` : undefined,
+            contactName: foundContact,
+            phoneNumber: call.phoneNumber,
+            callId: call.id
+          };
+        });
+        setCalls(callsWithType);
+        setError(undefined);
+      })
+      .catch(() => setError("Failed to load calls"))
+      .finally(() => setLoading(false));
+  }, []);
 
   const stateText =
     error ? 'Something went wrong. Please try again later'
       : loading ? 'Please wait...'
-        : !selectedId ? 'No call history selected' : '';
+        : calls.length === 0 ? 'No call history found' : !selectedId ? 'No call history selected' : '';
 
-  const callsWithContact = mockCalls.map(call => {
-    const contact = mockContacts.find(c => c.id === call.contactId);
-    return {
-      ...call,
-      callType: call.direction,
-      callTime: call.startedAt,
-      duration: call.duration != null ? `${call.duration}` : undefined,
-      contactName: contact ? contact : undefined,
-      phoneNumber: call.phoneNumber,
-      callId: call.id
-    };
-  });
+  const selectedCall = calls.find(call => call.id === selectedId);
 
-  const selectedCall = callsWithContact.find(call => call.callId === selectedId);
-
-  const [filterValue, setFilterValue] = useState<CallDirection>("all");
+  const filteredCalls = filterValue === "all"
+    ? calls
+    : calls.filter(call => call.direction === filterValue);
 
   function handleFilterChange(id: CallDirection) {
     setFilterValue(id);
     setSelectedId(undefined);
   }
 
-  const filteredCalls = filterValue === "all"
-    ? callsWithContact
-    : callsWithContact.filter(call => call.callType === filterValue);
+  if (loading) return <State variant='loading' title={stateText} />;
+  if (error) return <State variant='error' title={stateText} />;
+  if (calls.length === 0) return <State variant='empty' title={stateText} />;
 
   return (
     <div style={PageStyle}>
