@@ -1,4 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchContacts } from '../store/contacts/contactsSlice';
+import { selectContacts, selectContactsLoading, selectContactsError } from '../store/contacts/contactsSelectors';
+import type { AppDispatch } from '../store';
 import { ContactList } from "../components/contacts/ContactList";
 import { TitleWrapper } from "../components/common/TitleWrapper";
 import { State } from "../components/common/State";
@@ -8,27 +12,16 @@ import { PageStyle } from "../styles/Page";
 import { designTokens } from '../design-tokens';
 
 export default function Contacts() {
-  const [contacts, setContacts] = useState<any[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const contacts = useSelector(selectContacts);
+  const loading = useSelector(selectContactsLoading);
+  const error = useSelector(selectContactsError);
+
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    setLoading(true);
-    fetch('/api/contacts')
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error("Contacts fetch failed");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setContacts(data);
-        setError(undefined);
-      })
-      .catch(() => setError("Failed to load contacts"))
-      .finally(() => setLoading(false));
-  }, []);
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const stateText =
     error ? 'Something went wrong. Please try again later'
