@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCalls, selectCallsLoading, selectCallsError } from '../store/calls/callsSelector';
+import { selectContacts } from '../store/contacts/contactsSelectors';
+import type { AppDispatch } from '../store';
+import { fetchCalls } from '../store/calls/callsSlice';
+import { fetchContacts } from '../store/contacts/contactsSlice';
 import { CallList } from '../components/calls/CallList';
 import { CallFilter } from '../components/calls/CallFilter';
-import type { CallDirection } from '../components/types';
+import type { CallDirection, CallItem } from '../components/types';
 import { TitleWrapper } from '../components/common/TitleWrapper';
 import { State } from '../components/common/State';
 import { ListPaneStyle } from '../styles/ListPane';
@@ -9,48 +15,36 @@ import { PageStyle } from "../styles/Page";
 import { designTokens } from '../design-tokens';
 
 export default function Calls() {
-  const [calls, setCalls] = useState<any[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const calls = useSelector(selectCalls);
+  const loading = useSelector(selectCallsLoading);
+  const error = useSelector(selectCallsError);
+
+  const contacts = useSelector(selectContacts);
+
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | undefined>(undefined);
   const [filterValue, setFilterValue] = useState<CallDirection>("all");
 
   useEffect(() => {
-    setLoading(true);
-    Promise.all([
-      fetch('/api/calls'),
-      fetch('/api/contacts')
-    ])
-      .then(async ([callsResponse, contactsResponse]) => {
-        if (!callsResponse.ok) {
-          throw new Error("Calls fetch failed");
-        }
-        if (!contactsResponse.ok) {
-          throw new Error("Contacts fetch failed");
-        }
-        const calls = await callsResponse.json();
-        const contacts = await contactsResponse.json();
-        return { calls, contacts };
-      })
-      .then((data) => {
-        const callsWithType = data.calls.map((call: any) => {
-          const foundContact = data.contacts.find((contact: any) => contact.id === call.contactId);
-          return {
-            ...call,
-            callType: call.direction,
-            callTime: call.startedAt,
-            duration: call.duration != null ? `${call.duration}` : undefined,
-            contactName: foundContact,
-            phoneNumber: call.phoneNumber,
-            callId: call.id
-          };
-        });
-        setCalls(callsWithType);
-        setError(undefined);
-      })
-      .catch(() => setError("Failed to load calls"))
-      .finally(() => setLoading(false));
-  }, []);
+    dispatch(fetchCalls());
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  const filteredCalls = filterValue === "all"
+    ? calls
+    : calls.filter(call => call.direction === filterValue);
+
+  const callItems: CallItem[] = filteredCalls.map(call => {
+    const contact = contacts.find(c => c.id === call.contactId);
+    return {
+      callId: call.id,
+      callType: call.direction,
+      callTime: call.startedAt,
+      phoneNumber: call.phoneNumber,
+      duration: call.duration != null ? `${call.duration}` : undefined,
+      contactName: contact
+    };
+  });
 
   const stateText =
     error ? 'Something went wrong. Please try again later'
@@ -58,10 +52,6 @@ export default function Calls() {
         : calls.length === 0 ? 'No call history found' : !selectedId ? 'No call history selected' : '';
 
   const selectedCall = calls.find(call => call.id === selectedId);
-
-  const filteredCalls = filterValue === "all"
-    ? calls
-    : calls.filter(call => call.direction === filterValue);
 
   function handleFilterChange(id: CallDirection) {
     setFilterValue(id);
@@ -89,7 +79,7 @@ export default function Calls() {
           ariaLabel="Filter calls by direction"
         />
         <CallList
-          calls={filteredCalls}
+          calls={callItems}
           selectedCallId={selectedId}
           onCallSelect={setSelectedId}
           ariaLabel="Call History"
