@@ -45,7 +45,7 @@ export function CallItem({
     const formattedTime = `${day}.${month}.${year} · ${hours12}:${minutesStr}${ampm}`;
     const subText = formattedTime;
 
-    const text = contactName?.name ?? phoneNumber;
+    const text = contactName?.name || phoneNumber;
 
     return (
         <ListItem
